@@ -37,7 +37,7 @@ namespace CPW219_AspnetMVC_CRUD_Debugging.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            Product? product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace CPW219_AspnetMVC_CRUD_Debugging.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _context.Product
+            Product? product = await _context.Product
                 .FirstOrDefaultAsync(m => m.ProductId == id);
 
             if (product == null)
