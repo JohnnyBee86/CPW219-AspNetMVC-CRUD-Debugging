@@ -60,8 +60,7 @@ namespace CPW219_AspnetMVC_CRUD_Debugging.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            Product? product = await _context.Product
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            Product? product = await _context.Product.FindAsync(id);
 
             if (product == null)
             {
@@ -75,8 +74,14 @@ namespace CPW219_AspnetMVC_CRUD_Debugging.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Product? product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
-            return RedirectToAction(nameof(Index));
+
+            if (product != null)
+            {
+                _context.Product.Remove(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index");
         }
 
         private bool ProductExists(int id)
